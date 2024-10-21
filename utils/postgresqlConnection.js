@@ -36,6 +36,9 @@ exports.createPostgresqlConnection = async () => {
     database: dbname,
     password: password,
     port: port,
+    ssl: {
+      rejectUnauthorized: false, // Set to true for production environments with valid SSL certificates
+    },
   });
 
   let client;
@@ -45,6 +48,8 @@ exports.createPostgresqlConnection = async () => {
     console.log("database is conencted successfully");
     connectionFlag = true;
   } catch (error) {
+    console.log({ error });
+
     console.log("unable to connect the connection try again later");
   } finally {
     if (client) client.release();
